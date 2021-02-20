@@ -14,7 +14,14 @@ buildockerdimage(){
 }
 #===================================
 rundockerbash(){
-    docker run -it --rm wrap-heroku:1.0 /bin/bash --env API_KEY=${API_KEY}
+    tput setaf 6
+    echo -e "\nTESTING HEROKU CLI WITH 'APPS' COMMAND"
+    tput sgr0
+    docker run --env HEROKU_API_KEY=${API_KEY} -it --rm wrap-heroku:1.0 apps
+}
+#===================================
+rundockerhelp(){
+    docker run -it --rm wrap-heroku:1.0 --h
 }
 #===================================
 run(){
