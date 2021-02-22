@@ -27,11 +27,3 @@ This Action for [heroku](www.heroku.com) enables arbitrary actions with the `her
 ## Example
 
 Coming soon...
-
-#
-
-![Somos Aurora](https://somosaurora.co/wp-content/uploads/2020/05/logo-small-github.png)
-
-Somos Aurora © 2020. All rights reserved.\
-Angular Diseño más Interacción S.A.S\
-[www.somosaurora.co](https://www.somosaurora.co)
