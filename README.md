@@ -38,17 +38,14 @@ on:
       - dev
 
 jobs:
-  deploy:
-    name: Deploy
+  build:
+    name: Build
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-      - name: Build, Push and Deploy to Heroku
-        id: heroku
-        uses: weareangular/heroku-gh-actions@dev
+      - uses: actions/checkout@v2
+      - uses: weareangular/heroku-gh-actions@dev
         with:
           args: --deploy-container-app ${{ secrets.APP_NAME }} ARG1=${{ secrets.ARG1 }} ARG2=${{ secrets.ARG2 }}...
-          env:
-            HEROKU_API_KEY: ${{ secrets.HEROKU_TOKEN_DEV }}
+        env:
+          HEROKU_API_KEY: ${{ secrets.HEROKU_TOKEN_DEV }}
 ```
