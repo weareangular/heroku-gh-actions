@@ -1,0 +1,9 @@
+name: 'GitHub Action for Heroku'
+author: 'We Are Angular'
+description: 'Wraps the Heroku CLI to enable common commands.'
+branding:
+  icon: 'package'
+  color: 'gray-dark'
+runs:
+  using: 'docker'
+  image: 'Dockerfile'
