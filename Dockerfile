@@ -1,7 +1,7 @@
 FROM node:15.8.0-alpine3.10
 
 # Update distro
-RUN apk update && apk upgrade && apk add bash curl
+RUN apk update && apk upgrade && apk add bash curl git
 
 #Docker install
 RUN apk add --no-cache  --repository http://dl-cdn.alpinelinux.org/alpine/edge/main --repository  http://dl-cdn.alpinelinux.org/alpine/edge/community docker

@@ -45,17 +45,18 @@ runherokucli(){
 herokucheckapp(){
     echo "inside2"
     echo "$( heroku apps | grep ${app} )"
-    [[ -n $( heroku apps | grep ${app} ) ]] && echo 0 || echo 1
+    [[ -n $( heroku apps | grep ${app} ) ]] && return 0 || echo 1
 }
 
 #===================================
 herokucreateapp(){
     echo "inside"
-    herokucheckapp
-    echo "outside2"
+    #herokucheckapp
+    #echo "outside2"
     #[[ $? -eq 0 ]] || heroku create ${app}
-    heroku create ${app}
-    echo "outside1"
+    [[ -n $( heroku apps | grep ${app} ) ]] || heroku create ${app}
+    #heroku create ${app}
+    echo "outside"
 }
 
 #===================================
