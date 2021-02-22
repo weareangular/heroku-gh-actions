@@ -45,7 +45,7 @@ runherokucli(){
 herokucheckapp(){
     echo "inside2"
     echo "$( heroku apps | grep ${app} )"
-    [[ -n $( heroku apps | grep ${app} ) ]] && return 0 || return 1
+    [[ -n $( heroku apps | grep ${app} ) ]] && echo 0 || echo 1
 }
 
 #===================================
@@ -53,9 +53,9 @@ herokucreateapp(){
     echo "inside"
     herokucheckapp
     echo "outside2"
-    [[ $? -eq 0 ]] || heroku create ${app}
+    #[[ $? -eq 0 ]] || heroku create ${app}
+    heroku create ${app}
     echo "outside1"
-    return 0
 }
 
 #===================================
@@ -65,7 +65,6 @@ herokuargs(){
             heroku config:set "${arg}" --app="${app}"
         done
     fi
-    return 0
 }
 #===================================
 herokucontainerlogin(){
@@ -111,6 +110,7 @@ while (( "$#" )); do
         --deploy-container-app)
             app=${2}
             env_params=()
+            echo "${@:3}"
             for ARGUMENT in "${@:3}"; do
                 env_params+=("$(echo $ARGUMENT | cut -f1 -d=)=\"$(echo $ARGUMENT | cut -f2 -d=)\"")
             done
