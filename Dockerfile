@@ -5,6 +5,9 @@ RUN apk update && apk upgrade && apk add bash curl
 
 RUN curl https://cli-assets.heroku.com/install.sh | sh
 
+#testing
+RUN sudo chown -R $USER:$USER $HOME/.cache/heroku
+
 # Set the timezone in docker
 RUN apk --update add tzdata && cp /usr/share/zoneinfo/America/Bogota /etc/localtime && echo "America/Bogota" > /etc/timezone && apk del tzdata
 
