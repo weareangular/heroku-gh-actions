@@ -81,11 +81,17 @@ herokuopen(){
 }
 #===================================
 deploycontainerapp(){
+    echo "herokucontainerlogin"
     herokucontainerlogin
+    echo "herokucreateapp"
     herokucreateapp
+    echo "herokuargs"
     herokuargs
+    echo "herokupush"
     herokupush
+    echo "herokurelease"
     herokurelease
+    echo "herokuopen"
     herokuopen
 }
 #===================================
