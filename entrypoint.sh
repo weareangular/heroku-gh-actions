@@ -92,7 +92,6 @@ while (( "$#" )); do
         --deploy-container-app)
             app=${2}
             env_params=()
-            echo "${@:3}"
             for ARGUMENT in "${@:3}"; do
                 env_params+=("$(echo $ARGUMENT | cut -f1 -d=)=\"$(echo $ARGUMENT | cut -f2 -d=)\"")
             done
