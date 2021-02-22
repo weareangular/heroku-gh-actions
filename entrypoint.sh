@@ -8,11 +8,11 @@ set -e
 help() {
   cat << EOF
 usage: $0 [OPTIONS]
-    --h                                     Show this message 
-    --deploy-container-app [APP] [ARGS...]  deploy container app on heroku
-                                                [APP] => app name
-                                                [ARGS...] => arg_name1=arg_value1 arg_name2=arg_value2....
-    [ARGS...]                               arguments you want to use for the heroku cli
+    --h                                             Show this message 
+    --deploy-container-app [APP_NAME] [ARGS...]     deploy container app on heroku
+                                                    [APP_NAME] => app name *required
+                                                    [ARGS...] => arg_name1=arg_value1 arg_name2=arg_value2....
+    [ARGS...]                                       arguments you want to use for the heroku cli
 EOF
 }
 #===================================

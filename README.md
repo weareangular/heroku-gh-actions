@@ -17,7 +17,9 @@ This Action for [heroku](www.heroku.com) enables arbitrary actions with the `her
 
 ## Inputs
 
-- `--deploy-container-app [APP] [ARGS...]` - deploy container app on heroku.
+- `--deploy-container-app [APP_NAME] [ARGS...]` - deploy container app on heroku.
+  - `[APP_NAME]` - is the name of the app where it should be deployed.
+  - `[ARGS...]` - all those environment variables that you want to add to the application to be deployed
 - `args` - **Required**. This is the arguments you want to use for the `heroku` cli.
 
 ## Environment variables
@@ -26,4 +28,27 @@ This Action for [heroku](www.heroku.com) enables arbitrary actions with the `her
 
 ## Example
 
-Coming soon...
+To authenticate with Heroku, and deploy Heroku container:
+
+```yaml
+name: Build and deploy in Heroku (Development)
+on:
+  push:
+    branches:
+      - dev
+
+jobs:
+  deploy:
+    name: Deploy
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Build, Push and Deploy to Heroku
+        id: heroku
+        uses: weareangular/heroku-gh-actions@dev
+        with:
+          args: --deploy-container-app ${{ secrets.APP_NAME }} ARG1=${{ secrets.ARG1 }} ARG2=${{ secrets.ARG2 }}...
+          env:
+            HEROKU_API_KEY: ${{ secrets.HEROKU_TOKEN_DEV }}
+```
