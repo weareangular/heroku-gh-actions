@@ -1,5 +1,5 @@
 name: 'GitHub Action for Heroku'
-author: 'Somos Angular'
+author: 'We Are Angular'
 description: 'Wraps the Heroku CLI to enable common commands.'
 branding:
   icon: 'package'
