@@ -44,6 +44,7 @@ runherokucli(){
 #===================================
 herokucheckapp(){
     echo "inside2"
+    echo "$( heroku apps | grep ${app} )"
     [[ -n $( heroku apps | grep ${app} ) ]] && return 0 || return 1
 }
 
