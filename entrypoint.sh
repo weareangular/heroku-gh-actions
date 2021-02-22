@@ -114,6 +114,8 @@ while (( "$#" )); do
             for ARGUMENT in "${@:3}"; do
                 env_params+=("$(echo $ARGUMENT | cut -f1 -d=)=\"$(echo $ARGUMENT | cut -f2 -d=)\"")
             done
+            echo "${app}"
+            echo "${env_params}"
             init
             deploycontainerapp
             exit 0
