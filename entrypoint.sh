@@ -42,21 +42,8 @@ runherokucli(){
 #===================================
 #========DEPLOYCONTAINERAPP=========
 #===================================
-herokucheckapp(){
-    echo "inside2"
-    echo "$( heroku apps | grep ${app} )"
-    [[ -n $( heroku apps | grep ${app} ) ]] && return 0 || echo 1
-}
-
-#===================================
 herokucreateapp(){
-    echo "inside"
-    #herokucheckapp
-    #echo "outside2"
-    #[[ $? -eq 0 ]] || heroku create ${app}
     [[ -n $( heroku apps | grep ${app} ) ]] || heroku create ${app}
-    #heroku create ${app}
-    echo "outside"
 }
 
 #===================================
@@ -81,23 +68,17 @@ herokurelease(){
     heroku container:release web --app="${app}"
 }
 #===================================
-herokuopen(){
-    heroku open --app="${app}"
+herokusuccess(){
+    echo "Successful deploy!"
 }
 #===================================
 deploycontainerapp(){
-    echo "herokucontainerlogin"
     herokucontainerlogin
-    echo "herokucreateapp"
     herokucreateapp
-    echo "herokuargs"
     herokuargs
-    echo "herokupush"
     herokupush
-    echo "herokurelease"
     herokurelease
-    echo "herokuopen"
-    herokuopen
+    herokusuccess
 }
 #===================================
 #==========PARAMSANDARGS============
