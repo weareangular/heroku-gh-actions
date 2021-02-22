@@ -43,13 +43,17 @@ runherokucli(){
 #========DEPLOYCONTAINERAPP=========
 #===================================
 herokucheckapp(){
+    echo "inside2"
     [[ -n $( heroku apps | grep ${app} ) ]] && return 0 || return 1
 }
 
 #===================================
 herokucreateapp(){
+    echo "inside"
     herokucheckapp
+    echo "outside2"
     [[ $? -eq 0 ]] || heroku create ${app}
+    echo "outside1"
     return 0
 }
 
@@ -97,7 +101,6 @@ deploycontainerapp(){
 #===================================
 #==========PARAMSANDARGS============
 #===================================
-params=()
 while (( "$#" )); do
     case ${1} in
         --h)
