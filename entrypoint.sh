@@ -93,8 +93,11 @@ while (( "$#" )); do
             app=${2}
             env_params=()
             for ARGUMENT in "${@:3}"; do
-                env_params+=("$(echo "$ARGUMENT" | cut -f1 -d=)=$(echo "${ARGUMENT#*=}")")
-            done
+                arg_name=$(echo "$ARGUMENT" | cut -f1 -d=)
+                [[ ${arg_name%%_*} != "ENCODE" ]] \
+                    && { env_params+=("$(echo "$ARGUMENT" | cut -f1 -d=)=$(echo "${ARGUMENT#*=}")"); } \
+                    || { env_params+=("$(echo "${arg_name#*_}")=$(echo -e "${ARGUMENT#*=}" | base64 -d)"); }
+            done        
             init
             deploycontainerapp
             exit 0
