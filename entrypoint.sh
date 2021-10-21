@@ -50,7 +50,7 @@ herokucreateapp(){
 herokuargs(){
     if [[ -n ${env_params} ]]; then
         for arg in "${env_params[@]}"; do
-            heroku config:set "${arg}" --app="${app}"
+            heroku config:set "${arg}" --app="${app}" > /dev/null
         done
     fi
 }
