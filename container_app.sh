@@ -16,12 +16,13 @@ herokurelease(){
 }
 #===================================
 herokusuccess(){
-    echo "Successful deploy!"
+    echo "Successful deploy on:"
+    echo "https://${1}.herokuapp.com/"
 }
 #===================================
 deploycontainerapp(){
     herokucontainerlogin
     herokupush "${1}"
     herokurelease "${1}"
-    herokusuccess
+    herokusuccess "${1}"
 }
