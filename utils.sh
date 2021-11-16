@@ -3,6 +3,15 @@
 #===================================
 #===============UTILS===============
 #===================================
+herokugitcredentials(){
+    email="$(heroku access -a ${1} | grep owner)"
+    cat > ~/.netrc <<EOF
+machine git.heroku.com
+  login ${email}
+  password ${HEROKU_API_KEY}
+EOF
+}
+#===================================
 herokucreateapp(){
     [[ -n $( heroku apps | grep "${1}" ) ]] || heroku create "${1}"
 }
@@ -22,4 +31,9 @@ checkappname(){
         echo -e "Error: Either App_name is required to run the command."
         exit 126
     fi
+}
+#===================================
+herokusuccess(){
+    echo "Successful deploy on:"
+    echo "https://${1}.herokuapp.com/"
 }
