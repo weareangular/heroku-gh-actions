@@ -23,7 +23,7 @@ herokureactconfig(){
 herokureactcommitandpush(){
     git add .
     git commit -m "deploy to heroku"
-    git push heroku master
+    git push heroku "${GITHUB_REF_NAME}":master
 }
 #===================================
 deployreactapp(){
