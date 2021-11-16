@@ -11,6 +11,7 @@ __dir_root=${__dir_script%/*}
 #=============SCRIPTS===============
 #===================================
 source ${__dir_script}/container_app.sh
+source ${__dir_script}/react_app.sh
 source ${__dir_script}/utils.sh
 #===================================
 #==============HELP=================
@@ -63,6 +64,14 @@ while (( "$#" )); do
             herokucreateapp "${2}"
             herokuargs "${2}"
             deploycontainerapp "${2}"
+            exit 0
+        ;;
+        --deploy-react-app)
+            init
+            checkappname "${2}"
+            herokucreateapp "${2}"
+            herokuargs "${2}"
+            deployreactapp "${2}"
             exit 0
         ;;
         *)

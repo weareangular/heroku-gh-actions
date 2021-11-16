@@ -7,22 +7,17 @@ herokucontainerlogin(){
     heroku container:login
 }
 #===================================
-herokupush(){
+herokucontainerpush(){
     heroku container:push web --app="${1}"
 }
 #===================================
-herokurelease(){
+herokucontainerrelease(){
     heroku container:release web --app="${1}"
-}
-#===================================
-herokusuccess(){
-    echo "Successful deploy on:"
-    echo "https://${1}.herokuapp.com/"
 }
 #===================================
 deploycontainerapp(){
     herokucontainerlogin
-    herokupush "${1}"
-    herokurelease "${1}"
-    herokusuccess "${1}"
+    herokucontainerpush "${1}"
+    herokucontainerrelease "${1}"
+    herokucontainersuccess "${1}"
 }
