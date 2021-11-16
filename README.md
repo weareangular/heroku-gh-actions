@@ -17,25 +17,38 @@ This Action for [heroku](www.heroku.com) enables arbitrary actions with the `her
 
 ## Inputs
 
-- `--deploy-container-app [APP_NAME] [ARGS...]` - deploy container app on heroku.
+- `--deploy-container-app [APP_NAME]` - deploy container app on heroku.
   - `[APP_NAME]` - is the name of the app where it should be deployed.
-  - `[ARGS...]` - all those environment variables that you want to add to the application to be deployed
+- `--deploy-react-app [APP_NAME]` - deploy react app on heroku.
+  - `[APP_NAME]` - is the name of the app where it should be deployed.
 - `args` - **Required**. This is the arguments you want to use for the `heroku` cli.
 
 ## Environment variables
 
 - `HEROKU_API_KEY` - **Required**. The token to use for authentication.
+- `App_Env_NAME` - The script will take all environment variables with this pattern and assign them to the application, it will remove 'App_Env' from the variable name.
+  - Example:
+    - Environment variable in GitHub Workflows:
+      > App_Env_Credentials=Something
+    - Variable in environment in Heroku:
+      > Credentials=Something
+- `App_Env_Encoded_Name` - The script will take all the environment variables with this pattern and assign them to the application, remove 'App_Env_Encoded' from the variable name and base64 decode the content.
+  - Example:
+    - Environment variable in GitHub Workflows:
+      > App_Env_Encoded_Credentials=dGhpcyBpcyBhIGVuY29kZWQgdGVzdAo=
+    - Variable in environment in Heroku:
+      > Credentials=this is a encoded test
 
 ## Example
 
-To authenticate with Heroku, and deploy Heroku container:
+To authenticate with Heroku, and deploy Docker Container:
 
 ```yaml
-name: Build and deploy in Heroku (Development)
+name: Build Docker container and deploy in Heroku
 on:
   push:
     branches:
-      - dev
+      - master
 
 jobs:
   build:
@@ -45,7 +58,33 @@ jobs:
       - uses: actions/checkout@v2
       - uses: weareangular/heroku-gh-actions@master
         with:
-          args: --deploy-container-app ${{ secrets.APP_NAME }} ARG1=${{ secrets.ARG1 }} ARG2=${{ secrets.ARG2 }}...
+          args: --deploy-container-app ${{ secrets.APP_NAME }}
         env:
           HEROKU_API_KEY: ${{ secrets.HEROKU_TOKEN_DEV }}
+          App_Env_Arg1: ${{ secrets.ARG1 }}
+          App_Env_Encoded_Arg2: ${{ secrets.ARG1 }}
+```
+
+To authenticate with Heroku, and deploy React App:
+
+```yaml
+name: Build React app and deploy in Heroku
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: weareangular/heroku-gh-actions@master
+        with:
+          args: --deploy-react-app ${{ secrets.APP_NAME }}
+        env:
+          HEROKU_API_KEY: ${{ secrets.HEROKU_TOKEN_DEV }}
+          App_Env_Arg1: ${{ secrets.ARG1 }}
+          App_Env_Encoded_Arg2: ${{ secrets.ARG1 }}
 ```

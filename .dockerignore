@@ -3,5 +3,6 @@
 
 # include required files with an exception
 !entrypoint.sh
-!LICENSE
-!README.md
+!container_app.sh
+!react_app.sh
+!utils.sh

@@ -3,15 +3,25 @@
 #===================================
 set -e
 #===================================
+#===================================
+#===================================
+__dir_script="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+__dir_root=${__dir_script%/*}
+#===================================
+#=============SCRIPTS===============
+#===================================
+source ${__dir_script}/container_app.sh
+source ${__dir_script}/react_app.sh
+source ${__dir_script}/utils.sh
+#===================================
 #==============HELP=================
 #===================================
 help() {
   cat << EOF
 usage: $0 [OPTIONS]
     --h                                             Show this message 
-    --deploy-container-app [APP_NAME] [ARGS...]     deploy container app on heroku
+    --deploy-container-app [APP_NAME]               deploy container app on heroku
                                                     [APP_NAME] => app name *required
-                                                    [ARGS...] => arg_name1=arg_value1 arg_name2=arg_value2....
     [ARGS...]                                       arguments you want to use for the heroku cli
 EOF
 }
@@ -40,47 +50,6 @@ runherokucli(){
     bash -c "heroku $*"
 }
 #===================================
-#========DEPLOYCONTAINERAPP=========
-#===================================
-herokucreateapp(){
-    [[ -n $( heroku apps | grep ${app} ) ]] || heroku create ${app}
-}
-
-#===================================
-herokuargs(){
-    if [[ -n ${env_params} ]]; then
-        for arg in "${env_params[@]}"; do
-            heroku config:set "${arg}" --app="${app}" > /dev/null
-        done
-    fi
-}
-#===================================
-herokucontainerlogin(){
-    heroku container:login
-}
-#===================================
-herokupush(){
-    heroku container:push web --app="${app}"
-}
-
-#===================================
-herokurelease(){
-    heroku container:release web --app="${app}"
-}
-#===================================
-herokusuccess(){
-    echo "Successful deploy!"
-}
-#===================================
-deploycontainerapp(){
-    herokucontainerlogin
-    herokucreateapp
-    herokuargs
-    herokupush
-    herokurelease
-    herokusuccess
-}
-#===================================
 #==========PARAMSANDARGS============
 #===================================
 while (( "$#" )); do
@@ -90,16 +59,19 @@ while (( "$#" )); do
             exit 0
         ;;
         --deploy-container-app)
-            app=${2}
-            env_params=()
-            for ARGUMENT in "${@:3}"; do
-                arg_name=$(echo "$ARGUMENT" | cut -f1 -d=)
-                [[ ${arg_name%%_*} != "ENCODE" ]] \
-                    && { env_params+=("$(echo "$ARGUMENT" | cut -f1 -d=)=$(echo "${ARGUMENT#*=}")"); } \
-                    || { env_params+=("$(echo "${arg_name#*_}")=$(echo -e "${ARGUMENT#*=}" | base64 -d)"); }
-            done        
             init
-            deploycontainerapp
+            checkappname "${2}"
+            herokucreateapp "${2}"
+            herokuargs "${2}"
+            deploycontainerapp "${2}"
+            exit 0
+        ;;
+        --deploy-react-app)
+            init
+            checkappname "${2}"
+            herokucreateapp "${2}"
+            herokuargs "${2}"
+            deployreactapp "${2}"
             exit 0
         ;;
         *)
