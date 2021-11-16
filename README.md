@@ -17,8 +17,10 @@ This Action for [heroku](www.heroku.com) enables arbitrary actions with the `her
 
 ## Inputs
 
-- `--deploy-container-app [APP_NAME] [ARGS...]` - deploy container app on heroku.
-  - `[ARGS...]` - all those environment variables that you want to add to the application to be deployed
+- `--deploy-container-app [APP_NAME]` - deploy container app on heroku.
+  - `[APP_NAME]` - is the name of the app where it should be deployed.
+- `--deploy-react-app [APP_NAME]` - deploy react app on heroku.
+  - `[APP_NAME]` - is the name of the app where it should be deployed.
 - `args` - **Required**. This is the arguments you want to use for the `heroku` cli.
 
 ## Environment variables
@@ -39,14 +41,14 @@ This Action for [heroku](www.heroku.com) enables arbitrary actions with the `her
 
 ## Example
 
-To authenticate with Heroku, and deploy Heroku container:
+To authenticate with Heroku, and deploy Docker Container:
 
 ```yaml
-name: Build and deploy in Heroku (Development)
+name: Build Docker container and deploy in Heroku
 on:
   push:
     branches:
-      - dev
+      - master
 
 jobs:
   build:
@@ -57,6 +59,30 @@ jobs:
       - uses: weareangular/heroku-gh-actions@master
         with:
           args: --deploy-container-app ${{ secrets.APP_NAME }}
+        env:
+          HEROKU_API_KEY: ${{ secrets.HEROKU_TOKEN_DEV }}
+          App_Env_Arg1: ${{ secrets.ARG1 }}
+          App_Env_Encoded_Arg2: ${{ secrets.ARG1 }}
+```
+
+To authenticate with Heroku, and deploy React App:
+
+```yaml
+name: Build React app and deploy in Heroku
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: weareangular/heroku-gh-actions@master
+        with:
+          args: --deploy-react-app ${{ secrets.APP_NAME }}
         env:
           HEROKU_API_KEY: ${{ secrets.HEROKU_TOKEN_DEV }}
           App_Env_Arg1: ${{ secrets.ARG1 }}
