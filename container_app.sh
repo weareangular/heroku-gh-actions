@@ -19,5 +19,5 @@ deploycontainerapp(){
     herokucontainerlogin
     herokucontainerpush "${1}"
     herokucontainerrelease "${1}"
-    herokucontainersuccess "${1}"
+    herokusuccess "${1}"
 }
