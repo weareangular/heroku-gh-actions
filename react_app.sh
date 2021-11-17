@@ -11,6 +11,9 @@ herokugitconfig(){
 #===================================
 herokuaddremote(){
     heroku git:remote -a "${1}"
+    if [[ -n $( git show-ref | grep "heroku/${HEROKU_BRANCH_NAME}" ) ]]; then 
+        git fetch heroku ${HEROKU_BRANCH_NAME}
+    fi
 }
 #===================================
 herokureactconfig(){
@@ -23,8 +26,11 @@ herokureactconfig(){
 herokureactcommitandpush(){
     git add .
     git commit -m "deploy to heroku"
-    git filter-branch -- --all
-    git push heroku "${GITHUB_REF_NAME}":master
+    if [[ -n $( git show-ref | grep "heroku/${HEROKU_BRANCH_NAME}" ) ]]; then
+        git checkout heroku/"${HEROKU_BRANCH_NAME}"
+        git merge -X theirs origin/${GITHUB_REF_NAME} --allow-unrelated-histories -m "merge with ${GITHUB_REF_NAME}"
+    fi
+        git push heroku HEAD:${HEROKU_BRANCH_NAME}
 }
 #===================================
 deployreactapp(){
