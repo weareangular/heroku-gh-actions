@@ -33,6 +33,9 @@ checkenvvariables(){
         echo -e "\nEither HEROKU_API_KEY is required to run commands with the heroku cli"
         exit 126
     fi
+    if [[ -z $HEROKU_BRANCH_NAME ]]; then 
+        HEROKU_BRANCH_NAME="main"
+    fi
 }
 #===================================
 showinit(){
