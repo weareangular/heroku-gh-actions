@@ -31,6 +31,7 @@ herokureactcommitandpush(){
         git merge -X theirs origin/${GITHUB_REF_NAME} --allow-unrelated-histories -m "merge with ${GITHUB_REF_NAME}"
     else
         git filter-branch -- --all
+        git fetch --all --unshallow
     fi
     git push heroku HEAD:${HEROKU_BRANCH_NAME}
 }
