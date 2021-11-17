@@ -27,10 +27,12 @@ herokureactcommitandpush(){
     git add .
     git commit -m "deploy to heroku"
     if [[ -n $( git show-ref | grep "heroku/${HEROKU_BRANCH_NAME}" ) ]]; then
-        git checkout heroku/"${HEROKU_BRANCH_NAME}"
+        git switch heroku/"${HEROKU_BRANCH_NAME}"
         git merge -X theirs origin/${GITHUB_REF_NAME} --allow-unrelated-histories -m "merge with ${GITHUB_REF_NAME}"
+    else
+        git checkout -b heroku/"${HEROKU_BRANCH_NAME}"
     fi
-        git push heroku HEAD:${HEROKU_BRANCH_NAME}
+    git push heroku HEAD:${HEROKU_BRANCH_NAME}
 }
 #===================================
 deployreactapp(){
