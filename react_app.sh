@@ -12,7 +12,7 @@ herokugitconfig(){
 herokuaddremote(){
     heroku git:remote -a "${1}"
     if [[ -n $( git show-ref | grep "heroku/${HEROKU_BRANCH_NAME}" ) ]]; then 
-        git fetch heroku ${HEROKU_BRANCH_NAME}
+        git fetch --unshallow heroku ${HEROKU_BRANCH_NAME}
     fi
 }
 #===================================
@@ -30,7 +30,8 @@ herokureactcommitandpush(){
         git switch heroku/"${HEROKU_BRANCH_NAME}"
         git merge -X theirs origin/${GITHUB_REF_NAME} --allow-unrelated-histories -m "merge with ${GITHUB_REF_NAME}"
     else
-        git checkout -b heroku/"${HEROKU_BRANCH_NAME}"
+        git filter-branch -- --all
+        git fetch --all --unshallow
     fi
     git push heroku HEAD:${HEROKU_BRANCH_NAME}
 }
