@@ -26,6 +26,7 @@ This Action for [heroku](www.heroku.com) enables arbitrary actions with the `her
 ## Environment variables
 
 - `HEROKU_API_KEY` - **Required**. The token to use for authentication.
+- `HEROKU_BRANCH_NAME` - Name of the branch where the deployment will take place. By default 'main'.
 - `App_Env_NAME` - The script will take all environment variables with this pattern and assign them to the application, it will remove 'App_Env' from the variable name.
   - Example:
     - Environment variable in GitHub Workflows:
@@ -61,6 +62,7 @@ jobs:
           args: --deploy-container-app ${{ secrets.APP_NAME }}
         env:
           HEROKU_API_KEY: ${{ secrets.HEROKU_TOKEN_DEV }}
+          HEROKU_BRANCH_NAME: ${{ secrets.HEROKU_BRANCH_NAME }}
           App_Env_Arg1: ${{ secrets.ARG1 }}
           App_Env_Encoded_Arg2: ${{ secrets.ARG1 }}
 ```
@@ -85,6 +87,7 @@ jobs:
           args: --deploy-react-app ${{ secrets.APP_NAME }}
         env:
           HEROKU_API_KEY: ${{ secrets.HEROKU_TOKEN_DEV }}
+          HEROKU_BRANCH_NAME: ${{ secrets.HEROKU_BRANCH_NAME }}
           App_Env_Arg1: ${{ secrets.ARG1 }}
           App_Env_Encoded_Arg2: ${{ secrets.ARG1 }}
 ```
