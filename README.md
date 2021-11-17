@@ -87,4 +87,7 @@ jobs:
           args: --deploy-react-app ${{ secrets.APP_NAME }}
         env:
           HEROKU_API_KEY: ${{ secrets.HEROKU_TOKEN_DEV }}
+          HEROKU_BRANCH_NAME: ${{ secrets.HEROKU_BRANCH_NAME }}
+          App_Env_Arg1: ${{ secrets.ARG1 }}
+          App_Env_Encoded_Arg2: ${{ secrets.ARG1 }}
 ```
