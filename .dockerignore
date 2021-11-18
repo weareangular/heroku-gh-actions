@@ -5,4 +5,5 @@
 !entrypoint.sh
 !container_app.sh
 !react_app.sh
+!next_app.sh
 !utils.sh
