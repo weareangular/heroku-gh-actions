@@ -23,7 +23,7 @@ herokureactconfig(){
 herokureactcommitandpush(){
     git add .
     git commit -m "deploy to heroku"
-    git fetch --all --unshallow
+    git filter-branch -- --all
     git push heroku HEAD:${HEROKU_BRANCH_NAME}
 }
 #===================================
