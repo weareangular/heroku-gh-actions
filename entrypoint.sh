@@ -12,6 +12,7 @@ __dir_root=${__dir_script%/*}
 #===================================
 source ${__dir_script}/container_app.sh
 source ${__dir_script}/react_app.sh
+source ${__dir_script}/next_app.sh
 source ${__dir_script}/utils.sh
 #===================================
 #==============HELP=================
@@ -47,6 +48,13 @@ init(){
     checkenvvariables
 }
 #===================================
+checkappname(){  
+    if [[ -z $1 ]]; then
+        echo -e "Error: Either App_name is required to run the command."
+        exit 126
+    fi
+}
+#===================================
 #===========RUNHEROKUCLI============
 #===================================
 runherokucli(){
@@ -75,6 +83,14 @@ while (( "$#" )); do
             herokucreateapp "${2}"
             herokuargs "${2}"
             deployreactapp "${2}"
+            exit 0
+        ;;
+        --deploy-next-app)
+            init
+            checkappname "${2}"
+            herokucreateapp "${2}"
+            herokuargs "${2}"
+            deploynextapp "${2}"
             exit 0
         ;;
         *)
