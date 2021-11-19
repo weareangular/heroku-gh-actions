@@ -89,7 +89,6 @@ while (( "$#" )); do
             init
             checkappname "${2}"
             herokucreateapp "${2}"
-            herokuargs "${2}"
             deploynextapp "${2}"
             exit 0
         ;;
