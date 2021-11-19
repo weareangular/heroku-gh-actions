@@ -1,13 +1,24 @@
 #!bin/bash
 #
 #===================================
-#=========DEPLOYNEXTERAPP===========
+#==========DEPLOYNEXTAPP============
+#===================================
+nextenvconfig(){
+    env | grep App_Env | sed 's/App_Env_//' | while read -r line ; do
+        arg_name=$(echo "$line" | cut -f1 -d=)
+        [[ ${arg_name%%_*} != "Encoded" ]] \
+            && { env_var=($(echo "${arg_name}")=$(echo "${line#*=}")); } \
+            || { env_var=($(echo "${arg_name}" | sed 's/Encoded_//')=$(echo -e "${line#*=}" | base64 -d)); }
+        [[ -e ./.env ]] \
+            && { echo "${env_var}" >> ./.env; } \
+            || { echo "${env_var}" > ./.env; }
+    done
+}
 #===================================
 herokunextconfig(){
     echo $(cat package.json | jq '.scripts.start = "next start -p $PORT"') > ./package.json
-    cat ./package.json
-    echo "${nextenv}" > ./src/.env
     echo "${nextprocfile}" > ./Procfile
+    nextenvconfig
 }
 #===================================
 deploynextapp(){

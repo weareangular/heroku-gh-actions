@@ -21,6 +21,8 @@ This Action for [heroku](www.heroku.com) enables arbitrary actions with the `her
   - `[APP_NAME]` - is the name of the app where it should be deployed.
 - `--deploy-react-app [APP_NAME]` - deploy react app on heroku.
   - `[APP_NAME]` - is the name of the app where it should be deployed.
+- `--deploy-next-app [APP_NAME]` - deploy next app on heroku.
+  - `[APP_NAME]` - is the name of the app where it should be deployed.
 - `args` - **Required**. This is the arguments you want to use for the `heroku` cli.
 
 ## Environment variables
@@ -85,6 +87,31 @@ jobs:
       - uses: weareangular/heroku-gh-actions@master
         with:
           args: --deploy-react-app ${{ secrets.APP_NAME }}
+        env:
+          HEROKU_API_KEY: ${{ secrets.HEROKU_TOKEN_DEV }}
+          HEROKU_BRANCH_NAME: ${{ secrets.HEROKU_BRANCH_NAME }}
+          App_Env_Arg1: ${{ secrets.ARG1 }}
+          App_Env_Encoded_Arg2: ${{ secrets.ARG1 }}
+```
+
+To authenticate with Heroku, and deploy Next App:
+
+```yaml
+name: Build Next app and deploy in Heroku
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: weareangular/heroku-gh-actions@master
+        with:
+          args: --deploy-next-app ${{ secrets.APP_NAME }}
         env:
           HEROKU_API_KEY: ${{ secrets.HEROKU_TOKEN_DEV }}
           HEROKU_BRANCH_NAME: ${{ secrets.HEROKU_BRANCH_NAME }}
