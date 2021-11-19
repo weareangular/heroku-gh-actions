@@ -16,6 +16,16 @@ herokucreateapp(){
     [[ -n $( heroku apps | grep "${1}" ) ]] || heroku create "${1}"
 }
 #===================================
+herokugitconfig(){
+    email="$(heroku access -a ${1} | grep owner)"
+    git config --global user.email "${email}"
+    git config --global user.name "${email%%@*}"
+}
+#===================================
+herokuaddremote(){
+    heroku git:remote -a "${1}"
+}
+#===================================
 herokuargs(){
     env | grep App_Env | sed 's/App_Env_//' | while read -r line ; do
         arg_name=$(echo "$line" | cut -f1 -d=)
@@ -28,16 +38,16 @@ herokuargs(){
     done
 }
 #===================================
-checkappname(){  
-    if [[ -z $1 ]]; then
-        echo -e "Error: Either App_name is required to run the command."
-        exit 126
-    fi
-}
-#===================================
 herokucleanrepo(){
     heroku plugins:install heroku-repo
     heroku repo:reset -a ${1}
+}
+#===================================
+herokucommitandpush(){
+    git add .
+    git commit -m "deploy to heroku"
+    git filter-branch -- --all 1>/dev/null
+    git push heroku HEAD:${HEROKU_BRANCH_NAME}
 }
 #===================================
 herokusuccess(){
